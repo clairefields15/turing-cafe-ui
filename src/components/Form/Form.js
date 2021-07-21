@@ -32,13 +32,14 @@ class Form extends Component {
   };
 
   render() {
+    const { name, date, time, number } = this.state;
     return (
       <form>
         <input
           type='text'
           placeholder='Name'
           name='name'
-          value={this.state.name}
+          value={name}
           onChange={e => this.handleChange(e)}
           required
         />
@@ -46,7 +47,7 @@ class Form extends Component {
           type='text'
           placeholder='Date (mm/dd)'
           name='date'
-          value={this.state.date}
+          value={date}
           onChange={e => this.handleChange(e)}
           required
         />
@@ -54,7 +55,7 @@ class Form extends Component {
           type='text'
           placeholder='Time'
           name='time'
-          value={this.state.time}
+          value={time}
           onChange={e => this.handleChange(e)}
           required
         />
@@ -63,11 +64,16 @@ class Form extends Component {
           placeholder='Number of guests'
           name='number'
           min='0'
-          value={this.state.number}
+          value={number}
           onChange={e => this.handleChange(e)}
           required
         />
-        <button onClick={e => this.handleClick(e)}>Make Reservation</button>
+        <button
+          onClick={e => this.handleClick(e)}
+          disabled={!name || !date || !time || !number}
+        >
+          Make Reservation
+        </button>
       </form>
     );
   }
