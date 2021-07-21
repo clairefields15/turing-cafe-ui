@@ -9,7 +9,7 @@ const Reservations = ({ reservations }) => {
     });
   };
 
-  return <>{makeCards()}</>;
+  return <div className='card-container'>{makeCards()}</div>;
 };
 
 export default Reservations;
