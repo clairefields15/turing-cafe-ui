@@ -40,6 +40,7 @@ class Form extends Component {
           placeholder='Name'
           name='name'
           value={name}
+          id='nameInput'
           onChange={e => this.handleChange(e)}
           required
         />
@@ -48,6 +49,7 @@ class Form extends Component {
           placeholder='Date (mm/dd)'
           name='date'
           value={date}
+          id='dateInput'
           onChange={e => this.handleChange(e)}
           required
         />
@@ -55,6 +57,7 @@ class Form extends Component {
           type='text'
           placeholder='Time'
           name='time'
+          id='timeInput'
           value={time}
           onChange={e => this.handleChange(e)}
           required
@@ -64,11 +67,13 @@ class Form extends Component {
           placeholder='Number of guests'
           name='number'
           min='0'
+          id='numberInput'
           value={number}
           onChange={e => this.handleChange(e)}
           required
         />
         <button
+          id='makeResyBtn'
           onClick={e => this.handleClick(e)}
           disabled={!name || !date || !time || !number}
         >
