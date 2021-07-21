@@ -2,26 +2,29 @@ import React, { Component } from 'react';
 import './App.css';
 import Reservations from '../Reservations/Reservations';
 import Form from '../Form/Form';
+import Error from '../Error/Error';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      reservations: []
+      reservations: [],
+      error: ''
     };
   }
 
   componentDidMount() {
     fetch('http://localhost:3001/api/v1/reservations')
       .then(res => this.checkForErrors(res))
-      .then(data => this.setState({ reservations: data }));
+      .then(data => this.setState({ reservations: data }))
+      .catch(err => this.setState({ error: err.message }));
   }
 
   checkForErrors(res) {
     if (res.status === 500) {
       throw new Error('Sorry our servers are down, please try again later');
     } else if (res.status === 404) {
-      throw new Error('Error: 404, not found');
+      throw new Error('Sorry, resource was not found');
     } else if (res.status === 200) {
       return res.json();
     } else if (res.status === 201) {
@@ -49,7 +52,8 @@ class App extends Component {
         this.setState({
           reservations: [data, ...this.state.reservations]
         })
-      );
+      )
+      .catch(err => this.setState({ error: err.message }));
   };
 
   deleteReservation = e => {
@@ -59,21 +63,25 @@ class App extends Component {
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => this.checkForErrors(res))
-      .then(data => this.setState({ reservations: [...data] }));
+      .then(data => this.setState({ reservations: [...data] }))
+      .catch(err => this.setState({ error: err.message }));
   };
 
   render() {
-    const { reservations } = this.state;
+    const { reservations, error } = this.state;
     return (
       <div className='App'>
         <h1 className='app-title'>Turing Cafe Reservations</h1>
         <div className='resy-form'>
           <Form makeReservation={this.makeReservation} />
         </div>
-        <Reservations
-          reservations={reservations}
-          deleteReservation={this.deleteReservation}
-        />
+        {!error.length && (
+          <Reservations
+            reservations={reservations}
+            deleteReservation={this.deleteReservation}
+          />
+        )}
+        {!!error.length && <Error error={error} />}
       </div>
     );
   }
