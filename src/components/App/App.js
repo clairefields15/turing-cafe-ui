@@ -24,13 +24,30 @@ class App extends Component {
       throw new Error('Error: 404, not found');
     } else if (res.status === 200) {
       return res.json();
+    } else if (res.status === 201) {
+      return res.json();
     } else {
       throw new Error('Something went wrong');
     }
   }
 
   makeReservation = reservation => {
-    this.setState({ reservations: [reservation, ...this.state.reservations] });
+    fetch('http://localhost:3001/api/v1/reservations', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: reservation.name,
+        date: reservation.date,
+        time: reservation.time,
+        number: parseInt(reservation.number)
+      })
+    })
+      .then(res => this.checkForErrors(res))
+      .then(data =>
+        this.setState({
+          reservations: [data, ...this.state.reservations]
+        })
+      );
   };
 
   render() {
