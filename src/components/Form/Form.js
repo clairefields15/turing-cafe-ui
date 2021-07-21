@@ -79,3 +79,9 @@ class Form extends Component {
   }
 }
 export default Form;
+
+// extension: error handling for form
+//validate inputs:
+// number does not include e or special characters
+// date properly formatted mm/dd
+// time properly formatted 00:00
