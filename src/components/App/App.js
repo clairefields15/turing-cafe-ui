@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import './App.css';
+import Reservations from '../Reservations/Reservations';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      reservations: []
+    };
+  }
+
   componentDidMount() {
     fetch('http://localhost:3001/api/v1/reservations')
       .then(res => this.checkForErrors(res))
-      .then(data => console.log(data));
+      .then(data => this.setState({ reservations: data }));
   }
 
   checkForErrors(res) {
@@ -21,11 +29,14 @@ class App extends Component {
   }
 
   render() {
+    const { reservations } = this.state;
     return (
       <div className='App'>
         <h1 className='app-title'>Turing Cafe Reservations</h1>
         <div className='resy-form'></div>
-        <div className='resy-container'></div>
+        <div className='resy-container'>
+          <Reservations reservations={reservations} />
+        </div>
       </div>
     );
   }
