@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Reservations from '../Reservations/Reservations';
+import Form from '../Form/Form';
 
 class App extends Component {
   constructor(props) {
@@ -28,12 +29,18 @@ class App extends Component {
     }
   }
 
+  makeReservation = reservation => {
+    this.setState({ reservations: [reservation, ...this.state.reservations] });
+  };
+
   render() {
     const { reservations } = this.state;
     return (
       <div className='App'>
         <h1 className='app-title'>Turing Cafe Reservations</h1>
-        <div className='resy-form'></div>
+        <div className='resy-form'>
+          <Form makeReservation={this.makeReservation} />
+        </div>
         <Reservations reservations={reservations} />
       </div>
     );
