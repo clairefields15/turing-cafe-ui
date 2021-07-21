@@ -2,10 +2,16 @@ import React from 'react';
 import './Reservations.css';
 import ReservationCard from '../ReservationCard/ReservationCard';
 
-const Reservations = ({ reservations }) => {
+const Reservations = ({ reservations, deleteReservation }) => {
   const makeCards = () => {
     return reservations.map(reservation => {
-      return <ReservationCard key={reservation.id} {...reservation} />;
+      return (
+        <ReservationCard
+          key={reservation.id}
+          {...reservation}
+          deleteReservation={deleteReservation}
+        />
+      );
     });
   };
 

@@ -26,6 +26,8 @@ class App extends Component {
       return res.json();
     } else if (res.status === 201) {
       return res.json();
+    } else if (res.status === 202) {
+      return res.json();
     } else {
       throw new Error('Something went wrong');
     }
@@ -50,6 +52,16 @@ class App extends Component {
       );
   };
 
+  deleteReservation = e => {
+    const id = parseInt(e.target.id);
+    fetch(`http://localhost:3001/api/v1/reservations/${id}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(res => this.checkForErrors(res))
+      .then(data => this.setState({ reservations: [...data] }));
+  };
+
   render() {
     const { reservations } = this.state;
     return (
@@ -58,7 +70,10 @@ class App extends Component {
         <div className='resy-form'>
           <Form makeReservation={this.makeReservation} />
         </div>
-        <Reservations reservations={reservations} />
+        <Reservations
+          reservations={reservations}
+          deleteReservation={this.deleteReservation}
+        />
       </div>
     );
   }
